@@ -12,18 +12,32 @@ model User {
   name             String
   email            String   @unique
   passwordHash     String   @map("password_hash")
-  isEmailConfirmed Boolean? @map("is_email_confirmed")
+  isEmailConfirmed Boolean? @default(false) @map("is_email_confirmed")
   createdAt        DateTime @default(now()) @map("created_at")
   publicId         String   @unique @default(uuid())
+
+  apiKeys APIKey[]
 
   @@map("users")
 }
 
 model APIKey {
-  id        String   @id @default(uuid())
-  keyValue  String   @unique @map("key_value")
-  publicKey String   @unique @map("public_key")
-  createdAt DateTime @default(now()) @map("created_at")
+  id          String   @id @default(uuid())
+  value       String   @unique
+  createdAt   DateTime @default(now()) @map("created_at")
+  userId      String?  @map("user_id")
+  publicKeyId String   @unique @map("public_key_id")
+
+  User      User?     @relation(fields: [userId], references: [id])
+  publicKey PublicKey @relation(fields: [publicKeyId], references: [id])
 
   @@map("api_keys")
+}
+
+model PublicKey {
+  id        String  @id @default(uuid())
+  value     String  @unique
+  secretKey APIKey?
+
+  @@map("public_keys")
 }
