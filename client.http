@@ -9,3 +9,20 @@ Content-Type: application/json
   "email": "john@example.com",
   "password": "1234"
 }
+
+###
+
+# @name confirm_email
+POST {{baseUrl}}/users/confirm-email/e207f493-2580-4b8f-bc38-4b57414e0370
+Content-Type: application/json
+
+###
+
+# @name confirm_email
+POST {{baseUrl}}/sessions
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "1234"
+}
