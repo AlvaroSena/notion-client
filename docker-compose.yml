@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  database:
+    image: postgres
+    container_name: notion
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=johndoe
+      - POSTGRES_PASSWORD=randompassword
+      - POSTGRES_DB=notionclient
