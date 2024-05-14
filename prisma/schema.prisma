@@ -22,22 +22,25 @@ model User {
 }
 
 model APIKey {
-  id          String   @id @default(uuid())
-  value       String   @unique
-  createdAt   DateTime @default(now()) @map("created_at")
-  userId      String?  @map("user_id")
-  publicKeyId String   @unique @map("public_key_id")
+  id               String   @id @default(uuid())
+  value            String   @unique
+  createdAt        DateTime @default(now()) @map("created_at")
+  userId           String?  @map("user_id")
+  notionDatabaseId String
 
-  User      User?     @relation(fields: [userId], references: [id])
-  publicKey PublicKey @relation(fields: [publicKeyId], references: [id])
+  User User? @relation(fields: [userId], references: [id])
+
+  publicKey PublicKey?
 
   @@map("api_keys")
 }
 
 model PublicKey {
-  id        String  @id @default(uuid())
-  value     String  @unique
-  secretKey APIKey?
+  id       String  @id @default(uuid())
+  value    String  @unique
+  apiKeyId String? @unique @map("public_key_id")
+
+  secretKey APIKey? @relation(fields: [apiKeyId], references: [id])
 
   @@map("public_keys")
 }
