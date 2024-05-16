@@ -11,6 +11,8 @@ interface SignUpWithEmailConfirmationRequest {
 
 export class SignUpWithEmailConfirmation {
   async execute({ name, email, password }: SignUpWithEmailConfirmationRequest) {
+    const smtpUser = process.env.SMTP_USER as string
+
     const isEmailAlreadyTaken = await prisma.user.findUnique({
       where: {
         email,
@@ -23,7 +25,7 @@ export class SignUpWithEmailConfirmation {
 
     const passwordHash = await hash(password, 6)
 
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         name,
         email,
@@ -31,22 +33,24 @@ export class SignUpWithEmailConfirmation {
       },
     })
 
+    const htmlTemplate = `
+      <html>
+        <body>
+          <h3>Hello Mr(s) ${name},</h3>
+          <p>
+            Thank you for creating your NotionClient account. <br>
+            To complete your registration, click the link below: <br>
+            <a href='http://localhost:8080/v1/users/confirm-email/${user.publicId}'>Confirm your account here</a> <br>
+          </p>
+        </body>
+      </html>
+    `
+
     await transporter.sendMail({
-      from: 'alvarosenacs.c@gmail.com',
+      from: smtpUser,
       to: email,
-      subject: 'Email confirmation',
-      html: `<p>
-        Hello!
-        <br>
-        Thank you for creating your NotionClient account.
-        <br>
-        To complete your registration, click the link below:
-        <a href="">Confirm your account</a>
-        <br>
-        Yours truly,
-        The NotionClient Team
-        <a href="">https://www.notionclient.com</a>
-      </p>`,
+      subject: '[NotionClient] Email confirmation',
+      html: htmlTemplate,
     })
   }
 }

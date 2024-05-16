@@ -16,7 +16,7 @@ const createPublicKeyController = new CreatePublicKeyController()
 const queryNotionDatabaseController = new QueryNotionDatabaseController()
 
 routes.post('/v1/users/sign-up', signupWithEmailConfirmationController.handle)
-routes.post('/v1/users/confirm-email/:publicId', confirmEmailController.handle)
+routes.get('/v1/users/confirm-email/:publicId', confirmEmailController.handle)
 routes.post('/v1/sessions', createSessionController.handle)
 routes.post('/v1/public-key', verifyToken, createPublicKeyController.handle)
 routes.post('/v1/notion/database/query', queryNotionDatabaseController.handle)

@@ -1,4 +1,5 @@
 import { prisma } from '../../infra/prisma'
+import { AccountAlreadyConfirmedError } from '../errors/AccountAlreadyConfirmedError'
 import { ResourceNotFoundError } from '../errors/ResourceNotFoundError'
 
 interface ConfirmEmailRequest {
@@ -16,6 +17,10 @@ export class ConfirmEmail {
         isEmailConfirmed: true,
       },
     })
+
+    if (user?.isEmailConfirmed) {
+      throw new AccountAlreadyConfirmedError()
+    }
 
     if (!user) {
       throw new ResourceNotFoundError()
