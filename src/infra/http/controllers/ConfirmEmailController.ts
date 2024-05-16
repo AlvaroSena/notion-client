@@ -6,12 +6,12 @@ import { z } from 'zod'
 
 export class ConfirmEmailController {
   async handle(request: Request, reply: Response) {
-    const confirmEmailBodySchema = z.object({
+    const confirmEmailParamsSchema = z.object({
       publicId: z.string().uuid(),
     })
 
     try {
-      const { publicId } = confirmEmailBodySchema.parse(request.body)
+      const { publicId } = confirmEmailParamsSchema.parse(request.params)
       const confirmEmail = new ConfirmEmail()
       await confirmEmail.execute({ publicId })
 
