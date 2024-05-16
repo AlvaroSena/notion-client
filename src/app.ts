@@ -1,6 +1,6 @@
+import cors from 'cors'
 import express from 'express'
 import { routes } from './infra/http/routes'
-import cors from 'cors'
 
 const app = express()
 app.use(cors())
