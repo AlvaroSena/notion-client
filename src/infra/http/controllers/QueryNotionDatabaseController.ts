@@ -7,12 +7,22 @@ export class QueryNotionDatabaseController {
   async handle(request: Request, reply: Response) {
     const queryNotionDatabaseBodySchema = z.object({
       publicKey: z.string(),
+      query: z
+        .object({
+          property: z.string(),
+          checkbox: z.object({
+            equals: z.boolean(),
+          }),
+        })
+        .optional(),
     })
 
     try {
-      const { publicKey } = queryNotionDatabaseBodySchema.parse(request.body)
+      const { publicKey, query } = queryNotionDatabaseBodySchema.parse(
+        request.body,
+      )
       const queryNotionDatabase = new QueryNotionDatabase()
-      const response = await queryNotionDatabase.execute({ publicKey })
+      const response = await queryNotionDatabase.execute({ publicKey, query })
 
       return reply.json(response)
     } catch (err) {

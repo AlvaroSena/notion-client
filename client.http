@@ -47,7 +47,13 @@ POST {{baseUrl}}/notion/database/query
 Content-Type: application/json
 
 {
-  "publicKey": "public_1773b718-7239-49ba-beb1-b2eec45f9f49"
+  "publicKey": "public_1773b718-7239-49ba-beb1-b2eec45f9f49",
+  "query": {
+    "property": "published",
+    "checkbox": {
+      "equals": true
+    }
+  }
 }
 
 ###
