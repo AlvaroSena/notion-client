@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name": "John Doe Crawford",
-  "email": "",
+  "email": "mrjohndoe996@gmail.com",
   "password": "1234"
 }
 
@@ -48,4 +48,14 @@ Content-Type: application/json
 
 {
   "publicKey": "public_1773b718-7239-49ba-beb1-b2eec45f9f49"
+}
+
+###
+
+# @name resend_email_confirmation
+POST {{baseUrl}}/users/resend/email-confirmation
+Content-Type: application/json
+
+{
+  "publicId": "e3665944-a8d7-40c1-a39c-97dc4a3d0c89"
 }
