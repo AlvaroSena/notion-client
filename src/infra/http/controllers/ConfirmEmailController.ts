@@ -15,7 +15,9 @@ export class ConfirmEmailController {
       const confirmEmail = new ConfirmEmail()
       await confirmEmail.execute({ publicId })
 
-      return reply.status(301).redirect('http://localhost:8080/success')
+      const callbackURL = process.env.CALLBACK_URL as string
+
+      return reply.status(301).redirect(callbackURL)
     } catch (err) {
       if (err instanceof z.ZodError) {
         return reply.status(400).json({ message: 'Validation error' })
