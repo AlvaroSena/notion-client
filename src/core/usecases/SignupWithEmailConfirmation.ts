@@ -40,5 +40,11 @@ export class SignUpWithEmailConfirmation {
       subject: '[NotionClient] Email confirmation',
       html: confirmationTemplate.replace('{{publicId}}', user.publicId),
     })
+
+    return {
+      user: {
+        public_id: user.publicId,
+      },
+    }
   }
 }
