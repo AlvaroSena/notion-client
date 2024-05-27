@@ -33,6 +33,7 @@ export class CreatePublicKey {
       data: {
         value: publicKeyValue,
         apiKeyId: APIKey.id,
+        userId,
       },
     })
 

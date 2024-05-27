@@ -42,9 +42,7 @@ export class SignUpWithEmailConfirmation {
     })
 
     return {
-      user: {
-        public_id: user.publicId,
-      },
+      publicId: user.publicId,
     }
   }
 }
