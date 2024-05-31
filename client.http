@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "name": "John Doe Crawford",
-  "email": "",
+  "email": "mrjohndoe996@gmail.com",
   "password": "1234"
 }
 
@@ -24,8 +24,8 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-  "email": "john@example.com",
-  "password": "1234"
+  "email": "mrjohndoe996@gmail.com",
+  "password": "123456"
 }
 
 ###
@@ -36,8 +36,8 @@ Content-Type: application/json
 Authorization: Bearer {{authtoken}}
 
 {
-  "secretKeyValue": "",
-  "databaseId": ""
+  "secretKeyValue": "secret_31TnEfXmRXhvUEYqZRSjdqwXswgxiPAMHBqydpuS2sh",
+  "databaseId": "e47ad2baa2fb4bae9ffc8132cd41ff92"
 }
 
 ###
@@ -47,5 +47,35 @@ POST {{baseUrl}}/notion/database/query
 Content-Type: application/json
 
 {
-  "publicKey": "public_1773b718-7239-49ba-beb1-b2eec45f9f49"
+  "publicKey": "public_cbec1b9e-6606-4be2-88ad-efb195f8aa7f",
+  "query": {
+    "property": "published",
+    "checkbox": {
+      "equals": true
+    }
+  }
 }
+
+###
+
+# @name resend_email_confirmation
+POST {{baseUrl}}/users/resend/email-confirmation
+Content-Type: application/json
+
+{
+  "publicId": "e3665944-a8d7-40c1-a39c-97dc4a3d0c89"
+}
+
+###
+
+# @name list_public_keys
+GET {{baseUrl}}/public-keys
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}
+
+###
+
+# @name delete_public_key
+DELETE {{baseUrl}}/public-keys/d37aa862-b105-4f1c-afed-8105c1660ac5/delete
+Content-Type: application/json
+Authorization: Bearer {{authtoken}}

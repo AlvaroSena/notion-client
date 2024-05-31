@@ -15,9 +15,13 @@ export class SignupWithEmailConfirmationController {
       const { name, email, password } =
         signupWithEmailConfirmationBodySchema.parse(request.body)
       const signupWithEmailConfirmation = new SignUpWithEmailConfirmation()
-      await signupWithEmailConfirmation.execute({ name, email, password })
+      const publicId = await signupWithEmailConfirmation.execute({
+        name,
+        email,
+        password,
+      })
 
-      return reply.status(201).send()
+      return reply.status(201).json(publicId)
     } catch (err) {
       if (err instanceof z.ZodError) {
         return reply.status(400).json({ message: 'Validation error' })

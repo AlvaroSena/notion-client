@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id               String   @id @default(uuid())
+  id               String      @id @default(uuid())
   name             String
-  email            String   @unique
-  passwordHash     String   @map("password_hash")
-  isEmailConfirmed Boolean? @default(false) @map("is_email_confirmed")
-  createdAt        DateTime @default(now()) @map("created_at")
-  publicId         String   @unique @default(uuid())
+  email            String      @unique
+  passwordHash     String      @map("password_hash")
+  isEmailConfirmed Boolean?    @default(false) @map("is_email_confirmed")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  publicId         String      @unique @default(uuid())
+  publicKeys       PublicKey[]
 
   apiKeys APIKey[]
 
@@ -39,8 +40,10 @@ model PublicKey {
   id       String  @id @default(uuid())
   value    String  @unique
   apiKeyId String? @unique @map("public_key_id")
+  userId   String?
 
   secretKey APIKey? @relation(fields: [apiKeyId], references: [id])
+  User      User?   @relation(fields: [userId], references: [id])
 
   @@map("public_keys")
 }

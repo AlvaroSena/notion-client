@@ -6,16 +6,18 @@ import { z } from 'zod'
 
 export class ConfirmEmailController {
   async handle(request: Request, reply: Response) {
-    const confirmEmailBodySchema = z.object({
+    const confirmEmailParamsSchema = z.object({
       publicId: z.string().uuid(),
     })
 
     try {
-      const { publicId } = confirmEmailBodySchema.parse(request.body)
+      const { publicId } = confirmEmailParamsSchema.parse(request.params)
       const confirmEmail = new ConfirmEmail()
       await confirmEmail.execute({ publicId })
 
-      return reply.status(301).redirect('http://localhost:8080/success')
+      const callbackURL = process.env.CALLBACK_URL as string
+
+      return reply.status(301).redirect(callbackURL)
     } catch (err) {
       if (err instanceof z.ZodError) {
         return reply.status(400).json({ message: 'Validation error' })

@@ -4,10 +4,16 @@ import { Client } from '@notionhq/client'
 
 interface QueryNotionDatabaseRequest {
   publicKey: string
+  query?: {
+    property: string
+    checkbox: {
+      equals: boolean
+    }
+  }
 }
 
 export class QueryNotionDatabase {
-  async execute({ publicKey }: QueryNotionDatabaseRequest) {
+  async execute({ publicKey, query }: QueryNotionDatabaseRequest) {
     const publicKeyExists = await prisma.publicKey.findUnique({
       where: {
         value: publicKey,
@@ -31,6 +37,7 @@ export class QueryNotionDatabase {
 
     const response = await notion.databases.query({
       database_id: notionDatabaseId,
+      filter: query,
     })
 
     return response
